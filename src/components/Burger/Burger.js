@@ -1,9 +1,9 @@
 import React from "react";
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 import styles from "./Burger.module.scss";
-import { Object } from "core-js";
 
 const burger = props => {
+  // console.log(props);
   let transformedIngredients = Object.keys(props.ingredients)
     .map(igKey => {
       return [...Array(props.ingredients[igKey])].map((_, i) => {
