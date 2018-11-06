@@ -4,4 +4,13 @@ export {
   initIngredients,
   fetchIngredientsFailed
 } from "./bbActions";
-export { purchaseBurgerStart, purchaseBurger, purchaseBurgerFail } from "./order";
+export {
+  purchaseBurgerStart,
+  purchaseBurger,
+  purchaseBurgerFail,
+  purchaseInit,
+  fetchOrderStart,
+  fetchordersSuccess,
+  fetchOrdersFail,
+  fetchOrders
+} from "./order";
