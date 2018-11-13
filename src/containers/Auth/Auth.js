@@ -6,10 +6,6 @@ import Button from "../../components/UI/Button/Button";
 import styles from "./Auth.module.scss";
 import * as actions from "../../store/actions/";
 
-import Input from "../../components/UI/Input/Input";
-import Button from "../../components/UI/Button/Button";
-import styles from "./Auth.module.scss";
-
 class Auth extends Component {
   state = {
     controls: {
