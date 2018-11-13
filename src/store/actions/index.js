@@ -14,3 +14,7 @@ export {
   fetchOrdersFail,
   fetchOrders
 } from "./order";
+
+export {
+  auth
+} from "./auth";
