@@ -104,10 +104,11 @@ class ContactData extends Component {
     const order = {
       ingredients: this.props.ings,
       price: this.props.price,
-      orderData: formData
+      orderData: formData,
+      userId: this.props.userId
     };
 
-    this.props.onOrderBurger(order)
+    this.props.onOrderBurger(this.props.token, order)
 
   };
 
@@ -129,7 +130,7 @@ class ContactData extends Component {
     return isValid;
   }
 
-  inputChnagedHandler = (event, inputIdentifier) => {
+  inputChangedHandler = (event, inputIdentifier) => {
     const updatedOrderForm = {
       ...this.state.orderForm
     };
@@ -172,7 +173,7 @@ class ContactData extends Component {
             invalid={!formElement.config.valid}
             touched={formElement.config.touched}
             shouldValidate={formElement.config.validation}
-            changed={event => this.inputChnagedHandler(event, formElement.id)}
+            changed={event => this.inputChangedHandler(event, formElement.id)}
           />
         ))}
         <Button btnType="Success" disabled={!this.state.formIsValid}>
@@ -196,13 +197,15 @@ const mapStateToProps = state => {
   return {
     ings: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPrice,
-    loading: state.orders.loading
+    loading: state.orders.loading,
+    token: state.auth.token,
+    userId: state.auth.userId
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderBurger: (orderData) => dispatch(orderActions.purchaseBurger(orderData))
+    onOrderBurger: (token, orderData) => dispatch(orderActions.purchaseBurger(token, orderData))
   }
 }
 
