@@ -12,13 +12,11 @@ import * as actions from "../../store/actions";
 
 class BurgerBuilder extends Component {
   state = {
-    purchasing: false,
+    purchasing: false
   };
 
   componentDidMount() {
-    console.log(this.props.onInitIngredients());
     this.props.onInitIngredients();
-
   }
 
   updatePurchaseState(ingredients) {
@@ -31,7 +29,7 @@ class BurgerBuilder extends Component {
   }
 
   purchaseHandler = () => {
-    if(this.props.isAuthenticated) {
+    if (this.props.isAuthenticated) {
       this.setState({ purchasing: true });
     } else {
       this.props.onSetAuthRedirectPath("/checkout");
@@ -82,7 +80,6 @@ class BurgerBuilder extends Component {
           price={this.props.price}
         />
       );
-
     }
     return (
       <Aux>
@@ -110,7 +107,7 @@ const mapDispatchToProps = dispatch => {
     onIngredientRemoved: ingName => dispatch(actions.removeIngredient(ingName)),
     onInitIngredients: () => dispatch(actions.initIngredients()),
     onInitPurchase: () => dispatch(actions.purchaseInit()),
-    onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path)),
+    onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path))
   };
 };
 

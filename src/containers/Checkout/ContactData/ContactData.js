@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import axios from "../../../axios-orders";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
 import Button from "../../../components/UI/Button/Button";
@@ -7,6 +7,7 @@ import Input from "../../../components/UI/Input/Input";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import styles from "./ContactData.module.scss";
 import * as orderActions from "../../../store/actions/";
+import { updateObject, checkValidity } from "../../../shared/utility";
 
 class ContactData extends Component {
   state = {
@@ -91,7 +92,7 @@ class ContactData extends Component {
         valid: true
       }
     },
-    formIsValid: false,
+    formIsValid: false
   };
 
   orderHandler = e => {
@@ -108,46 +109,26 @@ class ContactData extends Component {
       userId: this.props.userId
     };
 
-    this.props.onOrderBurger(this.props.token, order)
-
+    this.props.onOrderBurger(this.props.token, order);
   };
 
 
-  checkValidity(value, rules) {
-    let isValid = true;
-
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-
-    if(rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-    if(rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-    return isValid;
-  }
-
   inputChangedHandler = (event, inputIdentifier) => {
-    const updatedOrderForm = {
-      ...this.state.orderForm
-    };
-    const updatedFormElement = {
-      ...updatedOrderForm[inputIdentifier]
-    };
-    updatedFormElement.touched = true;
-    updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkValidity(
-      updatedFormElement.value,
-      updatedFormElement.validation
-    );
+    const updatedFormElement = updateObject(this.state.orderForm[inputIdentifier], {
+      touched: true,
+      value: event.target.value,
+      valid: checkValidity(
+        event.target.value,
+        this.state.orderForm[inputIdentifier].validation
+      )
+    });
 
-    updatedOrderForm[inputIdentifier] = updatedFormElement;
-    
+    const updatedOrderForm = updateObject(this.state.orderForm, {
+      [inputIdentifier]: updatedFormElement
+    });
+
     let formIsValid = true;
-    for(let inputIdentifier in updatedOrderForm) {
+    for (let inputIdentifier in updatedOrderForm) {
       formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
     }
 
@@ -205,8 +186,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderBurger: (token, orderData) => dispatch(orderActions.purchaseBurger(token, orderData))
-  }
-}
+    onOrderBurger: (token, orderData) =>
+      dispatch(orderActions.purchaseBurger(token, orderData))
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(ContactData, axios));
