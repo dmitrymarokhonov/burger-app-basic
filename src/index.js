@@ -12,7 +12,7 @@ import * as serviceWorker from "./serviceWorker";
 import burgerBuilderReducer from "./store/reducers/BBReducer";
 import orderReducer from "./store/reducers/orderReducer";
 import authReducer from "./store/reducers/authReducer";
-import { watchAuth } from "./store/sagas/";
+import { watchAuth, watchBurgerBuilder, watchOrder } from "./store/sagas/";
 
 const composeEnhancers = process.env.NODE_ENV
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -32,6 +32,8 @@ const store = createStore(
 );
 
 sagaMiddleWare.run(watchAuth);
+sagaMiddleWare.run(watchBurgerBuilder);
+sagaMiddleWare.run(watchOrder);
 
 const app = (
   <Provider store={store}>
